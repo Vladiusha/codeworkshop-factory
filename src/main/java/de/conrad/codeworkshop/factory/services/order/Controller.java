@@ -6,10 +6,8 @@ import de.conrad.codeworkshop.factory.services.order.api.Order;
 import de.conrad.codeworkshop.factory.services.order.api.OrderConfirmation;
 import de.conrad.codeworkshop.factory.services.order.dto.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Andreas Hartmann
@@ -31,5 +29,14 @@ public class Controller {
         Order order = orderMapper.orderDtoToOrder(orderDTO);
 
         return factoryService.createOrder(order);
+    }
+
+    @DeleteMapping("/complete")
+    public HttpStatus completeOrder() {
+        HttpStatus status = HttpStatus.OK;
+
+        factoryService.completeOrder();
+
+        return status;
     }
 }

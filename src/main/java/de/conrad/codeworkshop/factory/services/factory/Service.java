@@ -18,4 +18,14 @@ class Service {
         order.setStatus(OrderStatus.IN_PROGRESS);
         manufacturingQueue.add(order);
     }
+
+    Order removeFromQueue() {
+        if (manufacturingQueue.isEmpty()) {
+            return null;
+        }
+
+        Order order = manufacturingQueue.poll();
+        order.setStatus(OrderStatus.COMPLETED);
+        return order;
+    }
 }

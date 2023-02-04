@@ -1,5 +1,6 @@
 package de.conrad.codeworkshop.factory.services.order;
 
+import de.conrad.codeworkshop.factory.services.factory.AsyncDeleteFromQueue;
 import de.conrad.codeworkshop.factory.services.factory.Controller;
 import de.conrad.codeworkshop.factory.services.order.api.Order;
 import de.conrad.codeworkshop.factory.services.order.api.OrderConfirmation;
@@ -21,9 +22,12 @@ public class Service {
 
     private final Controller factoryController;
 
+    private final AsyncDeleteFromQueue asyncDeleteFromQueue;
+
     @Autowired
-    public Service(de.conrad.codeworkshop.factory.services.factory.Controller factoryController) {
+    public Service(Controller factoryController, AsyncDeleteFromQueue asyncDeleteFromQueue) {
         this.factoryController = factoryController;
+        this.asyncDeleteFromQueue = asyncDeleteFromQueue;
     }
 
     /**
@@ -47,5 +51,9 @@ public class Service {
         }
 
         return orderConfirmation;
+    }
+
+    public void completeOrder() {
+        new Thread(asyncDeleteFromQueue).start();
     }
 }

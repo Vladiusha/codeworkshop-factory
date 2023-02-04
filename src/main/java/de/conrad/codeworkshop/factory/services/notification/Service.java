@@ -9,6 +9,9 @@ import de.conrad.codeworkshop.factory.services.order.api.Order;
 public class Service {
 
     public void notifyCustomer(final Order order) {
+        if (order == null) {
+            return;
+        }
         // Dummy function that would notify the customer that manufacturing is completed.
         try {
             Thread.sleep(500);
