@@ -13,11 +13,19 @@ public class Order {
     private OrderStatus status = PENDING;
 
     public void validate() {
-        if (!positions.isEmpty() && status == PENDING) {
+        if (positions != null && !positions.isEmpty() && status == PENDING && this.validateProductsIdAndQuantity()) {
             status = ACCEPTED;
         } else {
             status = DECLINED;
         }
+    }
+    public boolean validateProductsIdAndQuantity() {
+        for (Position position : positions) {
+            if (!position.validateProductId() || !position.validateQuantity()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setOrderConfirmation(final OrderConfirmation orderConfirmation) {
